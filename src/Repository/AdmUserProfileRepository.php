@@ -20,6 +20,20 @@ class AdmUserProfileRepository extends ServiceEntityRepository
         parent::__construct($registry, AdmUserProfile::class);
     }
 
+    /**
+     * @return AdmUserProfile[]
+     */
+    public function findByIdUser(int $admUserId){
+        return $this->findBy(array('idUser' => $admUserId));
+    }
+
+    /**
+     * @return AdmUserProfile[]
+     */
+    public function findByIdProfile(int $admProfileId){
+        return $this->findBy(array('idProfile' => $admProfileId));
+    }
+
     // /**
     //  * @return AdmUserProfile[] Returns an array of AdmUserProfile objects
     //  */

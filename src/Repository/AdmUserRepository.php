@@ -20,6 +20,13 @@ class AdmUserRepository extends ServiceEntityRepository
         parent::__construct($registry, AdmUser::class);
     }
 
+    /**
+     * @return AdmUser
+     */
+    public function findOneUserByLogin(string $login): AdmUser|null {
+        return $this->findOneBy(array('login' => $login));
+    }
+
     // /**
     //  * @return AdmUser[] Returns an array of AdmUser objects
     //  */

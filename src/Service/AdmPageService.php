@@ -36,7 +36,6 @@ class AdmPageService
             array_push($listPageProfiles, $profile->getDescription());
         }
         $item->setPageProfiles(implode(",", $listPageProfiles));
-
     }
 
 }

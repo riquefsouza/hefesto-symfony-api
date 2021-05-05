@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AdmPage;
 use App\Repository\AdmPageRepository;
+use App\Service\AdmPageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,13 +23,18 @@ class AdmPageController extends AbstractController
      * @var AdmPageRepository
      */
     private $repository;
+    /**
+     * @var AdmPageService
+     */
+    private $service;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        AdmPageRepository $repository
+        AdmPageRepository $repository, AdmPageService $service
     ) {
         $this->entityManager = $entityManager;
         $this->repository = $repository;
+        $this->service = $service;
     }
 
     /**
@@ -55,6 +61,7 @@ class AdmPageController extends AbstractController
     public function findAll(): Response
     {
         $AdmPageList = $this->repository->findAll();
+        $this->service->setTransientList($AdmPageList);
 
         return new JsonResponse($AdmPageList);
     }
@@ -64,7 +71,15 @@ class AdmPageController extends AbstractController
      */
     public function findById(int $id): Response
     {
-        return new JsonResponse($this->repository->find($id));
+        $admPage = $this->repository->find($id);
+
+        if ($admPage == null) {
+            return new Response('', Response::HTTP_NOT_FOUND);
+        } else {
+            $this->service->setTransient($admPage);
+        }
+
+        return new JsonResponse($admPage);
     }
 
     /**

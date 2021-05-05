@@ -34,7 +34,7 @@ class AdmMenuController extends AbstractController
     ) {
         $this->entityManager = $entityManager;
         $this->repository = $repository;
-        $this->$service = $$service;
+        $this->service = $service;
     }
 
     /**
@@ -82,7 +82,6 @@ class AdmMenuController extends AbstractController
         }
 
         return new JsonResponse($admMenu);
-
     }
 
     /**

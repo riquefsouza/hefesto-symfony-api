@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\AdmPage;
+use App\Entity\AdmUser;
 
 /**
  * AdmProfile
@@ -44,12 +46,12 @@ class AdmProfile implements \JsonSerializable
     private $general = 'N';
 
     /**
-     * @var string|null
+     * @var \AdmPage[]|null
      */
     private $admPages;
 
     /**
-     * @var string|null
+     * @var \AdmUser[]|null
      */
     private $admUsers;
 
@@ -104,24 +106,30 @@ class AdmProfile implements \JsonSerializable
         return $this;
     }
 
-    public function getAdmPages(): ?string
+    /**
+     * @return AdmPage[]
+     */
+    public function getAdmPages()
     {
         return $this->admPages;
     }
 
-    public function setAdmPages(?string $admPages): self
+    public function setAdmPages(array $admPages): self
     {
         $this->admPages = $admPages;
 
         return $this;
     }
 
-    public function getAdmUsers(): ?string
+    /**
+     * @return AdmUser[]
+     */
+    public function getAdmUsers()
     {
         return $this->admUsers;
     }
 
-    public function setAdmUsers(?string $admUsers): self
+    public function setAdmUsers(array $admUsers): self
     {
         $this->admUsers = $admUsers;
 
