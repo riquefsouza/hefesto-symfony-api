@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="adm_menu", uniqueConstraints={@ORM\UniqueConstraint(name="adm_menu_uk", columns={"mnu_description"})}, indexes={@ORM\Index(name="IDX_54F2B6ABF75889DC", columns={"mnu_pag_seq"}), @ORM\Index(name="IDX_54F2B6AB771551D", columns={"mnu_parent_seq"})})
  * @ORM\Entity
  */
-class AdmMenu
+class AdmMenu implements \JsonSerializable
 {
     /**
      * @var int
@@ -109,5 +109,17 @@ class AdmMenu
         return $this;
     }
 
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'description' => $this->getDescription(),
+            'idMenuParent' => $this->getAdmMenuParent()!=null ? $this->getAdmMenuParent()->getId() : '',
+            'idPage' => $this->getAdmPage()!=null ? $this->getAdmPage()->getId() : '',
+            'order' => $this->getOrder(),
+            'admPage' => $this->getAdmPage(),
+            'admMenuParent' => $this->getAdmMenuParent(),
+        ];
+    }
 
 }

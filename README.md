@@ -19,6 +19,6 @@ composer require nelmio/api-doc-bundle
 composer require symfony/twig-bundle
 composer require symfony/asset
 
-http://localhost:8080/api/doc
+http://localhost:8080/swagger
 
 ```

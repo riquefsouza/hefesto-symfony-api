@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="adm_parameter", uniqueConstraints={@ORM\UniqueConstraint(name="adm_parameter_uk", columns={"par_description"})}, indexes={@ORM\Index(name="IDX_E884916A851250EF", columns={"par_pmc_seq"})})
  * @ORM\Entity
  */
-class AdmParameter
+class AdmParameter implements \JsonSerializable
 {
     /**
      * @var int
@@ -106,5 +106,15 @@ class AdmParameter
         return $this;
     }
 
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'code' => $this->getCode(),
+            'description' => $this->getDescription(),
+            'value' => $this->getValue(),
+            'admParameterCategory' => $this->getAdmParameterCategory()
+        ];
+    }
 
 }

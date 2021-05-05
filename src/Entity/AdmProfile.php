@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="adm_profile", uniqueConstraints={@ORM\UniqueConstraint(name="adm_profile_uk", columns={"prf_description"})})
  * @ORM\Entity
  */
-class AdmProfile
+class AdmProfile implements \JsonSerializable
 {
     /**
      * @var int
@@ -42,6 +42,26 @@ class AdmProfile
      * @ORM\Column(name="prf_general", type="string", length=1, nullable=true, options={"default"="N","fixed"=true})
      */
     private $general = 'N';
+
+    /**
+     * @var string|null
+     */
+    private $admPages;
+
+    /**
+     * @var string|null
+     */
+    private $admUsers;
+
+    /**
+     * @var string|null
+     */
+    private $profilePages;
+
+    /**
+     * @var string|null
+     */
+    private $profileUsers;
 
     public function getId(): ?string
     {
@@ -84,5 +104,66 @@ class AdmProfile
         return $this;
     }
 
+    public function getAdmPages(): ?string
+    {
+        return $this->admPages;
+    }
+
+    public function setAdmPages(?string $admPages): self
+    {
+        $this->admPages = $admPages;
+
+        return $this;
+    }
+
+    public function getAdmUsers(): ?string
+    {
+        return $this->admUsers;
+    }
+
+    public function setAdmUsers(?string $admUsers): self
+    {
+        $this->admUsers = $admUsers;
+
+        return $this;
+    }
+
+    public function getProfilePages(): ?string
+    {
+        return $this->profilePages;
+    }
+
+    public function setProfilePages(?string $profilePages): self
+    {
+        $this->profilePages = $profilePages;
+
+        return $this;
+    }
+
+    public function getProfileUsers(): ?string
+    {
+        return $this->profileUsers;
+    }
+
+    public function setProfileUsers(?string $profileUsers): self
+    {
+        $this->profileUsers = $profileUsers;
+
+        return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'administrator' => $this->getAdministrator(),
+            'description' => $this->getDescription(),
+            'general' => $this->getGeneral(),
+            'admPages' => $this->getAdmPages(),
+            'admUsers' => $this->getAdmUsers(),
+            'profilePages' => $this->getProfilePages(),
+            'profileUsers' => $this->getProfileUsers(), 
+        ];
+    }
 
 }

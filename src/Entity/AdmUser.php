@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="adm_user", uniqueConstraints={@ORM\UniqueConstraint(name="adm_user_login_uk", columns={"usu_login"}), @ORM\UniqueConstraint(name="adm_user_password_uk", columns={"usu_password"}), @ORM\UniqueConstraint(name="adm_user_email_uk", columns={"usu_email"}), @ORM\UniqueConstraint(name="adm_user_name_uk", columns={"usu_name"})})
  * @ORM\Entity
  */
-class AdmUser
+class AdmUser implements \JsonSerializable
 {
     /**
      * @var int
@@ -56,6 +56,32 @@ class AdmUser
      * @ORM\Column(name="usu_password", type="string", length=128, nullable=false)
      */
     private $password;
+
+    /**
+     * @var string|null
+     */
+    private $admIdProfiles;
+
+    /**
+     * @var string|null
+     */
+    private $userProfiles;
+
+    /**
+     * @var string|null
+     */
+    private $currentPassword;
+
+    /**
+     * @var string|null
+     */
+    private $newPassword;
+
+        /**
+     * @var string|null
+     */
+    private $confirmNewPassword;
+
 
     public function getId(): ?string
     {
@@ -122,5 +148,81 @@ class AdmUser
         return $this;
     }
 
+    public function getAdmIdProfiles(): ?string
+    {
+        return $this->admIdProfiles;
+    }
+
+    public function setAdmIdProfiles(?string $admIdProfiles): self
+    {
+        $this->admIdProfiles = $admIdProfiles;
+
+        return $this;
+    }
+
+    public function getUserProfiles(): ?string
+    {
+        return $this->userProfiles;
+    }
+
+    public function setUserProfiles(?string $userProfiles): self
+    {
+        $this->userProfiles = $userProfiles;
+
+        return $this;
+    }
+
+    public function getCurrentPassword(): ?string
+    {
+        return $this->currentPassword;
+    }
+
+    public function setCurrentPassword(?string $currentPassword): self
+    {
+        $this->currentPassword = $currentPassword;
+
+        return $this;
+    }
+
+    public function getNewPassword(): ?string
+    {
+        return $this->newPassword;
+    }
+
+    public function setNewPassword(?string $newPassword): self
+    {
+        $this->newPassword = $newPassword;
+
+        return $this;
+    }
+
+    public function getConfirmNewPassword(): ?string
+    {
+        return $this->confirmNewPassword;
+    }
+
+    public function setConfirmNewPassword(?string $confirmNewPassword): self
+    {
+        $this->confirmNewPassword = $confirmNewPassword;
+
+        return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'active' => $this->getActive(),
+            'email' => $this->getEmail(),
+            'login' => $this->getLogin(),
+            'name' => $this->getName(),
+            'password' => $this->getPassword(),
+            'admIdProfiles' => $this->getAdmIdProfiles(),
+            'userProfiles' => $this->getUserProfiles(),
+            'currentPassword' => $this->getCurrentPassword(),
+            'newPassword' => $this->getNewPassword(),
+            'confirmNewPassword' => $this->getConfirmNewPassword(),       
+        ];
+    }
 
 }

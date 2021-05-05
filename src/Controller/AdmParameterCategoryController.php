@@ -10,7 +10,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Info(
+ *    title="Hefesto API",
+ *    version="v1",
+ * )
+ */
 class AdmParameterCategoryController extends AbstractController
 {
     /**
@@ -32,6 +39,30 @@ class AdmParameterCategoryController extends AbstractController
 
     /**
      * @Route("/api/v1/admParameterCategory", methods={"POST"})
+     * 
+     * @OA\Post(
+     * path="/api/v1/admParameterCategory",
+     * summary="Insert Parameter Category",
+     * description="Insert Parameter Category",
+     * operationId="admParameterCategory",
+     * tags={"AdmParameterCategory"},
+     * @OA\RequestBody(
+     *    required=true,
+     *    description="Pass parameters",
+     *    @OA\JsonContent(
+     *       required={"description","order"},
+     *       @OA\Property(property="description", type="string", example="description"),
+     *       @OA\Property(property="order", type="integer", format="password", example="123"),
+     *    ),
+     * ),
+     * @OA\Response(
+     *    response=200,
+     *    description="Inserted Parameter Category",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="message", type="string", example="")
+     *        )
+     *     )
+     * )
      */
     public function insert(Request $request): Response
     {

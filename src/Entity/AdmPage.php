@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="adm_page", uniqueConstraints={@ORM\UniqueConstraint(name="adm_page_description_uk", columns={"pag_description"}), @ORM\UniqueConstraint(name="adm_page_url_uk", columns={"pag_url"})})
  * @ORM\Entity
  */
-class AdmPage
+class AdmPage implements \JsonSerializable
 {
     /**
      * @var int
@@ -35,6 +35,16 @@ class AdmPage
      * @ORM\Column(name="pag_url", type="string", length=255, nullable=false)
      */
     private $url;
+
+    /**
+     * @var string|null
+     */
+    private $admIdProfiles;
+    
+    /**
+     * @var string|null
+     */
+    private $pageProfiles;
 
     public function getId(): ?string
     {
@@ -65,5 +75,39 @@ class AdmPage
         return $this;
     }
 
+    public function getAdmIdProfiles(): ?string
+    {
+        return $this->admIdProfiles;
+    }
+
+    public function setAdmIdProfiles(?string $admIdProfiles): self
+    {
+        $this->admIdProfiles = $admIdProfiles;
+
+        return $this;
+    }
+
+    public function getPageProfiles(): ?string
+    {
+        return $this->pageProfiles;
+    }
+
+    public function setPageProfiles(?string $pageProfiles): self
+    {
+        $this->pageProfiles = $pageProfiles;
+
+        return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'description' => $this->getDescription(),
+            'url' => $this->getUrl(),
+            'admIdProfiles' => $this->getAdmIdProfiles(),
+            'pageProfiles' => $this->getPageProfiles(),
+        ];
+    }
 
 }
