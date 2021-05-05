@@ -37,9 +37,9 @@ class AdmPage implements \JsonSerializable
     private $url;
 
     /**
-     * @var string|null
+     * @var int[]|null
      */
-    private $admIdProfiles;
+    private $admIdProfiles = array();
     
     /**
      * @var string|null
@@ -75,12 +75,15 @@ class AdmPage implements \JsonSerializable
         return $this;
     }
 
-    public function getAdmIdProfiles(): ?string
+    /**
+     * @return int[]|null
+     */
+    public function getAdmIdProfiles()
     {
         return $this->admIdProfiles;
     }
 
-    public function setAdmIdProfiles(?string $admIdProfiles): self
+    public function setAdmIdProfiles(array $admIdProfiles): self
     {
         $this->admIdProfiles = $admIdProfiles;
 

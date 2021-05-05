@@ -23,6 +23,20 @@ class AdmPageProfile
     private $id;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="pgl_pag_seq", type="integer", nullable=false)
+     */
+    private $idPage;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="pgl_prf_seq", type="integer", nullable=false)
+     */
+    private $idProfile;
+
+    /**
      * @var \AdmPage
      *
      * @ORM\ManyToOne(targetEntity="AdmPage")
@@ -45,6 +59,30 @@ class AdmPageProfile
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    public function getIdPage(): int
+    {
+        return $this->idPage;
+    }
+
+    public function setIdPage(int $idPage): self
+    {
+        $this->idPage = $idPage;
+
+        return $this;
+    }
+
+    public function getIdProfile(): int
+    {
+        return $this->idProfile;
+    }
+
+    public function setIdProfile(int $idProfile): self
+    {
+        $this->idProfile = $idProfile;
+
+        return $this;
     }
 
     public function getAdmPage(): ?AdmPage

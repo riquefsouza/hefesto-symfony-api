@@ -23,6 +23,20 @@ class AdmUserProfile
     private $id;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="usp_use_seq", type="integer", nullable=false)
+     */
+    private $idUser;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="usp_prf_seq", type="integer", nullable=false)
+     */
+    private $idProfile;
+
+    /**
      * @var \AdmProfile
      *
      * @ORM\ManyToOne(targetEntity="AdmProfile")
@@ -45,6 +59,30 @@ class AdmUserProfile
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    public function getIdUser(): int
+    {
+        return $this->idUser;
+    }
+
+    public function setIdUser(int $idUser): self
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
+
+    public function getIdProfile(): int
+    {
+        return $this->idProfile;
+    }
+
+    public function setIdProfile(int $idProfile): self
+    {
+        $this->idProfile = $idProfile;
+
+        return $this;
     }
 
     public function getAdmProfile(): ?AdmProfile

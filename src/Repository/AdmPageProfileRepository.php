@@ -20,6 +20,20 @@ class AdmPageProfileRepository extends ServiceEntityRepository
         parent::__construct($registry, AdmPageProfile::class);
     }
 
+    /**
+     * @return AdmPageProfile[] Returns an array of AdmPageProfile objects
+     */
+    public function findByIdPage(int $admPageId){
+        return $this->findBy(array('idPage' => $admPageId));
+    }
+
+    /**
+     * @return AdmPageProfile[] Returns an array of AdmPageProfile objects
+     */
+    public function findByIdProfile(int $admProfileId){
+        return $this->findBy(array('idProfile' => $admProfileId));
+    }
+
     // /**
     //  * @return AdmPageProfile[] Returns an array of AdmPageProfile objects
     //  */

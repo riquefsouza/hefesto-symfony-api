@@ -37,6 +37,20 @@ class AdmMenu implements \JsonSerializable
     private $order;
 
     /**
+     * @var int|null
+     *
+     * @ORM\Column(name="mnu_pag_seq", type="integer", nullable=true)
+     */
+    private $idPage;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="mnu_parent_seq", type="integer", nullable=true)
+     */
+    private $idMenuParent;
+
+    /**
      * @var \AdmPage
      *
      * @ORM\ManyToOne(targetEntity="AdmPage")
@@ -81,6 +95,30 @@ class AdmMenu implements \JsonSerializable
     public function setOrder(?int $order): self
     {
         $this->order = $order;
+
+        return $this;
+    }
+
+    public function getIdPage(): ?int
+    {
+        return $this->idPage;
+    }
+
+    public function setIdPage(?int $idPage): self
+    {
+        $this->idPage = $idPage;
+
+        return $this;
+    }
+
+    public function getIdMenuParent(): ?int
+    {
+        return $this->idMenuParent;
+    }
+
+    public function setIdMenuParent(?int $idMenuParent): self
+    {
+        $this->idMenuParent = $idMenuParent;
 
         return $this;
     }

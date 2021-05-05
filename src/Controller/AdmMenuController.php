@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AdmMenu;
 use App\Repository\AdmMenuRepository;
+use App\Service\AdmMenuService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,13 +23,18 @@ class AdmMenuController extends AbstractController
      * @var AdmMenuRepository
      */
     private $repository;
+    /**
+     * @var AdmMenuService
+     */
+    private $service;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        AdmMenuRepository $repository
+        AdmMenuRepository $repository, AdmMenuService $service
     ) {
         $this->entityManager = $entityManager;
         $this->repository = $repository;
+        $this->$service = $$service;
     }
 
     /**
@@ -57,6 +63,7 @@ class AdmMenuController extends AbstractController
     public function findAll(): Response
     {
         $AdmMenuList = $this->repository->findAll();
+        $this->service->setTransientList($AdmMenuList);
 
         return new JsonResponse($AdmMenuList);
     }
@@ -66,7 +73,16 @@ class AdmMenuController extends AbstractController
      */
     public function findById(int $id): Response
     {
-        return new JsonResponse($this->repository->find($id));
+        $admMenu = $this->repository->find($id);
+
+        if ($admMenu == null) {
+            return new Response('', Response::HTTP_NOT_FOUND);
+        } else {
+            $this->service->setTransient($admMenu);
+        }
+
+        return new JsonResponse($admMenu);
+
     }
 
     /**
