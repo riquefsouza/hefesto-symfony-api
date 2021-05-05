@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AdmProfile;
 use App\Repository\AdmProfileRepository;
+use App\Service\AdmProfileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,13 +23,18 @@ class AdmProfileController extends AbstractController
      * @var AdmProfileRepository
      */
     private $repository;
+    /**
+     * @var AdmProfileService
+     */
+    private $service;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        AdmProfileRepository $repository
+        AdmProfileRepository $repository, AdmProfileService $service
     ) {
         $this->entityManager = $entityManager;
         $this->repository = $repository;
+        $this->service = $service;
     }
 
     /**
@@ -56,6 +62,7 @@ class AdmProfileController extends AbstractController
     public function findAll(): Response
     {
         $AdmProfileList = $this->repository->findAll();
+        $this->service->setTransientList($AdmProfileList);
 
         return new JsonResponse($AdmProfileList);
     }
@@ -65,7 +72,15 @@ class AdmProfileController extends AbstractController
      */
     public function findById(int $id): Response
     {
-        return new JsonResponse($this->repository->find($id));
+        $admProfile = $this->repository->find($id);
+
+        if ($admProfile == null) {
+            return new Response('', Response::HTTP_NOT_FOUND);
+        } else {
+            $this->service->setTransient($admProfile);
+        }
+
+        return new JsonResponse($admProfile);
     }
 
     /**
@@ -97,4 +112,38 @@ class AdmProfileController extends AbstractController
 
         return new Response('', Response::HTTP_NO_CONTENT);
     }
+
+    /**
+     * @Route("/api/v1/mountMenu", methods={"GET"})
+     */
+    public function mountMenu(Request $request): Response
+    {
+        $dadosRequest = $request->getContent();
+        $dadosEmJson = json_decode($dadosRequest);
+
+        $listaIdProfile = $dadosRequest;
+
+        $menuItens = $this->service->mountMenuItem($listaIdProfile);
+
+        return new JsonResponse($menuItens);
+    }
+
+    /**
+     * @Route("/api/v1/findProfilesByPage/{pageId}", methods={"GET"})
+     */
+    public function findProfilesByPage(int $pageId): Response
+    {
+        $admProfileList = $this->service->findProfilesByPage($pageId);
+        return new JsonResponse($admProfileList);
+    }
+    
+    /**
+     * @Route("/api/v1/findProfilesByUser/{userId}", methods={"GET"})
+     */
+    public function findProfilesByUser(int $userId): Response
+    {
+        $admProfileList = $this->service->findProfilesByUser($userId);
+        return new JsonResponse($admProfileList);
+    }
+
 }

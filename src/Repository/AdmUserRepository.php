@@ -21,7 +21,7 @@ class AdmUserRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return AdmUser
+     * @return AdmUser|null
      */
     public function findOneUserByLogin(string $login): AdmUser|null {
         return $this->findOneBy(array('login' => $login));

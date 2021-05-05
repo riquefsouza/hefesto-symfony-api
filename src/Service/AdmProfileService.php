@@ -34,7 +34,9 @@ class AdmProfileService
      */
     public function findProfilesByPage(int $pageId)
     {
-        return $this->servicePageProfile->getProfilesByPage($pageId);
+        $admProfileList = $this->pageProfileService->getProfilesByPage($pageId);
+        $this->setTransientList($admProfileList);
+        return $admProfileList;
     }
 
     /**
@@ -42,7 +44,9 @@ class AdmProfileService
      */
     public function findProfilesByUser(int $userId)
     {
-        return $this->serviceUserProfile->getProfilesByUser($userId);
+        $admProfileList =  $this->userProfileService->getProfilesByUser($userId);
+        $this->setTransientList($admProfileList);
+        return $admProfileList;
     }
 
     /**
@@ -81,7 +85,7 @@ class AdmProfileService
 
         $listProfileUsers = array();
         foreach ($listUsers as $user) {
-            array_push($listProfileUsers, $user->getDescription());
+            array_push($listProfileUsers, $user->getName());
         }
         $item->setProfileUsers(implode(",", $listProfileUsers));
     }

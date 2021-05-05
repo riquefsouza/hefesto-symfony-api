@@ -35,7 +35,7 @@ class AdmUserService
     {
         $obj = $this->service->getProfilesByUser($item->getId());
         foreach ($obj as $profile) {
-            array_push($item->getAdmIdProfiles, $profile->getId());
+            array_push($item->getAdmIdProfiles(), $profile->getId());
         }
 
         $listUserProfiles = array();

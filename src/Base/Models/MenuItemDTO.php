@@ -106,6 +106,9 @@ class MenuItemDTO implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return \MenuItemDTO[]|null
+     */
     public function &getItem()
     {
         return $this->item;

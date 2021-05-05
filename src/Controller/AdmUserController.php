@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AdmUser;
 use App\Repository\AdmUserRepository;
+use App\Service\AdmUserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,13 +23,18 @@ class AdmUserController extends AbstractController
      * @var AdmUserRepository
      */
     private $repository;
+    /**
+     * @var AdmUserService
+     */
+    private $service;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        AdmUserRepository $repository
+        AdmUserRepository $repository, AdmUserService $service
     ) {
         $this->entityManager = $entityManager;
         $this->repository = $repository;
+        $this->service = $service;
     }
 
     /**
@@ -58,6 +64,7 @@ class AdmUserController extends AbstractController
     public function findAll(): Response
     {
         $AdmUserList = $this->repository->findAll();
+        $this->service->setTransientList($AdmUserList);
 
         return new JsonResponse($AdmUserList);
     }
@@ -67,7 +74,15 @@ class AdmUserController extends AbstractController
      */
     public function findById(int $id): Response
     {
-        return new JsonResponse($this->repository->find($id));
+        $admUser = $this->repository->find($id);
+
+        if ($admUser == null) {
+            return new Response('', Response::HTTP_NOT_FOUND);
+        } else {
+            $this->service->setTransient($admUser);
+        }
+
+        return new JsonResponse($admUser);
     }
 
     /**

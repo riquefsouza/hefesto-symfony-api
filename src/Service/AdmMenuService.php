@@ -28,15 +28,18 @@ class AdmMenuService
     {
         foreach ($list as $item)
         {
-            $item->AdmPage = $this->pageRepository->find($item->getIdPage()); 
-            $item->AdmMenuParent = $this->menuRepository->find($item->getIdMenuParent()); 
+            $this->setTransient($item);
         }
     }
 
     public function setTransient(AdmMenu $item): void
     {
-        $item->AdmPage = $this->pageRepository->find($item->getIdPage()); 
-        $item->AdmMenuParent = $this->menuRepository->find($item->getIdMenuParent()); 
+        if ($item->getIdPage()!=null){
+            $item->AdmPage = $this->pageRepository->find($item->getIdPage()); 
+        }
+        if ($item->getIdMenuParent()!=null){
+            $item->AdmMenuParent = $this->menuRepository->find($item->getIdMenuParent()); 
+        }
     }
 
 }

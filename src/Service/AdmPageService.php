@@ -28,7 +28,7 @@ class AdmPageService
     {
         $obj = $this->service->getProfilesByPage($item->getId());
         foreach ($obj as $profile) {
-            array_push($item->getAdmIdProfiles, $profile->getId());
+            array_push($item->getAdmIdProfiles(), $profile->getId());
         }
 
         $listPageProfiles = array();

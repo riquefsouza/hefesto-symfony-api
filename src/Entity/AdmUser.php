@@ -151,7 +151,7 @@ class AdmUser implements \JsonSerializable
     /**
      * @return int[]|null
      */
-    public function getAdmIdProfiles()
+    public function &getAdmIdProfiles()
     {
         return $this->admIdProfiles;
     }

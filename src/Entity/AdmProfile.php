@@ -48,12 +48,12 @@ class AdmProfile implements \JsonSerializable
     /**
      * @var \AdmPage[]|null
      */
-    private $admPages;
+    private $admPages = array();
 
     /**
      * @var \AdmUser[]|null
      */
-    private $admUsers;
+    private $admUsers = array();
 
     /**
      * @var string|null
@@ -107,9 +107,9 @@ class AdmProfile implements \JsonSerializable
     }
 
     /**
-     * @return AdmPage[]
+     * @return AdmPage[]|null
      */
-    public function getAdmPages()
+    public function &getAdmPages()
     {
         return $this->admPages;
     }
@@ -122,9 +122,9 @@ class AdmProfile implements \JsonSerializable
     }
 
     /**
-     * @return AdmUser[]
+     * @return AdmUser[]|null
      */
-    public function getAdmUsers()
+    public function &getAdmUsers()
     {
         return $this->admUsers;
     }
