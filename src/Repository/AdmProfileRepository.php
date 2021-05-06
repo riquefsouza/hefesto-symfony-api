@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\AdmProfile;
+use App\Entity\AdmMenu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,32 +21,43 @@ class AdmProfileRepository extends ServiceEntityRepository
         parent::__construct($registry, AdmProfile::class);
     }
 
-    // /**
-    //  * @return AdmProfile[] Returns an array of AdmProfile objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    /**
+     * @return AdmMenu[]
+     */
+	public function findMenuParentByIdProfiles(array $listaIdProfile){
+        $query = $this->createNamedQuery("AdmProfile.findMenuParentByIdProfiles");
+        $query->setParameter(1, $listaIdProfile);
+        $lista = $query->getResult();
+        return $lista;
     }
-    */
+    /**
+     * @return AdmMenu[]
+     */
+	public function findMenuByIdProfiles(array $listaIdProfile, int $admMenuId) {
+        $query = $this->createNamedQuery("AdmProfile.findMenuByIdProfiles");
+        $query->setParameter(1, $listaIdProfile);
+        $query->setParameter(2, $admMenuId);
+        $lista = $query->getResult();
+        return $lista;
+    }
+    /**
+     * @return AdmMenu[]
+     */
+	public function findAdminMenuParentByIdProfiles(array $listaIdProfile){
+        $query = $this->createNamedQuery("AdmProfile.findAdminMenuParentByIdProfiles");
+        $query->setParameter(1, $listaIdProfile);
+        $lista = $query->getResult();
+        return $lista;
+    }
+    /**
+     * @return AdmMenu[]
+     */
+	public function findAdminMenuByIdProfiles(array $listaIdProfile, int $admMenuId) {
+        $query = $this->createNamedQuery("AdmProfile.findAdminMenuByIdProfiles");
+        $query->setParameter(1, $listaIdProfile);
+        $query->setParameter(2, $admMenuId);
+        $lista = $query->getResult();
+        return $lista;
+    }
 
-    /*
-    public function findOneBySomeField($value): ?AdmProfile
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

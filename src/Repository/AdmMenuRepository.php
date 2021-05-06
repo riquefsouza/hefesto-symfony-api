@@ -20,6 +20,13 @@ class AdmMenuRepository extends ServiceEntityRepository
         parent::__construct($registry, AdmMenu::class);
     }
 
+    /**
+     * @return AdmMenu[]
+     */
+    public function findByIdMenuParent(int $idMenuParent){
+        return $this->findBy(array('idMenuParent' => $idMenuParent));
+    }
+
     // /**
     //  * @return AdmMenu[] Returns an array of AdmMenu objects
     //  */

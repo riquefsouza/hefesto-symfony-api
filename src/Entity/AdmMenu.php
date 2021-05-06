@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\AdmPage;
+use App\Entity\AdmUser;
 
 /**
  * AdmMenu
@@ -53,7 +55,7 @@ class AdmMenu implements \JsonSerializable
     /**
      * @var \AdmPage
      *
-     * @ORM\ManyToOne(targetEntity="AdmPage")
+     * @ORM\ManyToOne(targetEntity="AdmPage", inversedBy="admMenus")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="mnu_pag_seq", referencedColumnName="pag_seq")
      * })
@@ -69,6 +71,11 @@ class AdmMenu implements \JsonSerializable
      * })
      */
     private $admMenuParent;
+
+    /** 
+     * @var \AdmMenu[]|null
+    */
+    private $admSubMenus = array();
 
     public function getId(): ?string
     {
@@ -143,6 +150,26 @@ class AdmMenu implements \JsonSerializable
     public function setAdmMenuParent(?self $admMenuParent): self
     {
         $this->admMenuParent = $admMenuParent;
+
+        return $this;
+    }
+
+    public function getUrl(): string|null
+    {
+		return $this->admPage != null ? $this->admPage->getUrl() : null;
+	}
+
+    /**
+     * @return \AdmMenu[]|null
+     */
+    public function &getAdmSubMenus()
+    {
+        return $this->admSubMenus;
+    }
+
+    public function setAdmSubMenus(array $admSubMenus): self
+    {
+        $this->admSubMenus = $admSubMenus;
 
         return $this;
     }

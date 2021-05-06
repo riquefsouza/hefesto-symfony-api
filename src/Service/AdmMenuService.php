@@ -24,15 +24,21 @@ class AdmMenuService
         $this->pageRepository = $pageRepository;
     }
 
+    public function setTransientWithoutSubMenus(array $list): void
+    {
+        foreach ($list as $item) {
+            $this->setTransientSubMenus($item, null);
+        }
+    }
+
     public function setTransientList(array $list): void
     {
-        foreach ($list as $item)
-        {
+        foreach ($list as $item) {
             $this->setTransient($item);
         }
     }
 
-    public function setTransient(AdmMenu $item): void
+    public function setTransientSubMenus(AdmMenu $item, array|null $subMenus): void
     {
         if ($item->getIdPage()!=null){
             $item->AdmPage = $this->pageRepository->find($item->getIdPage()); 
@@ -40,6 +46,14 @@ class AdmMenuService
         if ($item->getIdMenuParent()!=null){
             $item->AdmMenuParent = $this->menuRepository->find($item->getIdMenuParent()); 
         }
+        if ($subMenus!=null) {
+            $item->setAdmSubMenus($subMenus);
+        }
+    }
+
+    public function setTransient(AdmMenu $item)
+    {
+        $this->setTransientSubMenus($item, $this->menuRepository->findByIdMenuParent($item->getId()));
     }
 
 }

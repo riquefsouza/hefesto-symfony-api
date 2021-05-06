@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * AdmUser
@@ -58,6 +60,15 @@ class AdmUser implements \JsonSerializable
     private $password;
 
     /**
+     * @var Collection
+	 * @ORM\ManyToMany(targetEntity="AdmProfile", inversedBy="admUsers")
+	 * @ORM\JoinTable(name = "ADM_USER_PROFILE", 
+     *    joinColumns = { @ORM\JoinColumn(name = "usp_use_seq") }, 
+     *    inverseJoinColumns = { @ORM\JoinColumn(name = "usp_prf_seq") })
+    */
+	private $admProfiles;
+
+    /**
      * @var int[]|null
      */
     private $admIdProfiles = array();
@@ -82,6 +93,9 @@ class AdmUser implements \JsonSerializable
      */
     private $confirmNewPassword;
 
+    public function __construct() {
+        $this->admProfiles = new ArrayCollection();
+    }
 
     public function getId(): ?string
     {

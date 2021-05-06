@@ -3,6 +3,10 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\AdmMenu;
+use App\Entity\AdmProfile;
 
 /**
  * AdmPage
@@ -37,6 +41,21 @@ class AdmPage implements \JsonSerializable
     private $url;
 
     /**
+     * @var Collection
+	 * @ORM\ManyToMany(targetEntity="AdmProfile", inversedBy="admPages")
+	 * @ORM\JoinTable(name = "ADM_PAGE_PROFILE", 
+     *    joinColumns = { @ORM\JoinColumn(name = "PGL_PAG_SEQ") }, 
+     *    inverseJoinColumns = { @ORM\JoinColumn(name = "PGL_PRF_SEQ") })
+     */
+	private $admProfiles;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="AdmMenu", mappedBy = "admPage")	
+     */
+	private $admMenus;
+
+    /**
      * @var int[]|null
      */
     private $admIdProfiles = array();
@@ -45,6 +64,11 @@ class AdmPage implements \JsonSerializable
      * @var string|null
      */
     private $pageProfiles;
+
+    public function __construct() {
+        $this->admProfiles = new ArrayCollection();
+        $this->admMenus = new ArrayCollection();
+    }
 
     public function getId(): ?string
     {
