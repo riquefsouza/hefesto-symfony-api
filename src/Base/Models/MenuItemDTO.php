@@ -10,17 +10,17 @@ class MenuItemDTO implements \JsonSerializable
     private $label;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $routerLink;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $url;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $to;
 
@@ -35,14 +35,14 @@ class MenuItemDTO implements \JsonSerializable
         $this->Clean();
     }
 
-    public function create(string $label, string $url) {
+    public function create(string $label, string|null $url) {
         $this->label = $label;
         $this->url = $url;
         $this->routerLink = $url;
         $this->to = $url;
     }     
 
-    public function createWithItem(string $label, string $url, $item) {
+    public function createWithItem(string $label, string|null $url, $item) {
         $this->label = $label;
         $this->url = $url;
         $this->routerLink = $url;
@@ -70,7 +70,7 @@ class MenuItemDTO implements \JsonSerializable
         return $this;
     }
 
-    public function getRouterLink(): string
+    public function getRouterLink(): string|null
     {
         return $this->routerLink;
     }
@@ -82,7 +82,7 @@ class MenuItemDTO implements \JsonSerializable
         return $this;
     }
 
-    public function getUrl(): string
+    public function getUrl(): string|null
     {
         return $this->url;
     }
@@ -94,7 +94,7 @@ class MenuItemDTO implements \JsonSerializable
         return $this;
     }
 
-    public function getTo(): string
+    public function getTo(): string|null
     {
         return $this->to;
     }
@@ -123,12 +123,20 @@ class MenuItemDTO implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return [
-            'label' => $this->getLabel(),
-            'url' => $this->getUrl(),
-            'routerLink' => $this->getRouterLink(),
-            'to' => $this->getTo(),
-            'item' => $this->getItem()    
-        ];
+        if ($this->getUrl()!=null) {
+            return [
+                'label' => $this->getLabel(),
+                'url' =>  $this->getUrl(),
+                'routerLink' => $this->getRouterLink(),
+                'to' => $this->getTo(),
+                'item' => $this->getItem()    
+            ];    
+        }
+        else {
+            return [
+                'label' => $this->getLabel(),
+                'item' => $this->getItem()    
+            ];    
+        }
     }
 }

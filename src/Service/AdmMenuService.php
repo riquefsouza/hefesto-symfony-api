@@ -89,7 +89,9 @@ class AdmMenuService
      */
     public function mountMenuItem(array $listaIdProfile)
     {
+        
         $lista = array();
+        
         $listMenus = $this->findMenuParentByIdProfiles($listaIdProfile);
         
         foreach ($listMenus as $menu) {
@@ -97,25 +99,30 @@ class AdmMenuService
             $admSubMenus = $menu->getAdmSubMenus();
 
             foreach ($admSubMenus as $submenu) {
-                $submenuVO = new MenuItemDTO($submenu->getDescription(), $submenu->getUrl());
+                $submenuVO = new MenuItemDTO();
+                $submenuVO->create($submenu->getDescription(), $submenu->getUrl());
                 array_push($item, $submenuVO);
             };
             
-            $vo = new MenuItemDTO($menu->getDescription(), $menu->getUrl(), $item);
+            $vo = new MenuItemDTO();
+            $vo->createWithItem($menu->getDescription(), $menu->getUrl(), $item);
             array_push($lista, $vo);
         };
         
         $listAdminMenus = $this->findAdminMenuParentByIdProfiles($listaIdProfile);
+        
         foreach ($listAdminMenus as $menu) {
             $item = array();
             $admSubMenus = $menu->getAdmSubMenus();
 
             foreach ($admSubMenus as $submenu) {
-                $submenuVO = new MenuItemDTO($submenu->getDescription(), $submenu->getUrl());
+                $submenuVO = new MenuItemDTO();
+                $submenuVO->create($submenu->getDescription(), $submenu->getUrl());
                 array_push($item, $submenuVO);
             };
             
-            $vo = new MenuItemDTO($menu->getDescription(), $menu->getUrl(), $item);
+            $vo = new MenuItemDTO();
+            $vo->createWithItem($menu->getDescription(), $menu->getUrl(), $item);
             array_push($lista, $vo);
         };
     
