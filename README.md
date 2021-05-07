@@ -21,4 +21,10 @@ composer require symfony/asset
 
 http://localhost:8080/swagger
 
+composer require security
+composer require firebase/php-jwt
+
+cd bin
+php console make:controller
+name -> LoginController
 ```
