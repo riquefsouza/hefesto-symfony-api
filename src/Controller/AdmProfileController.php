@@ -114,20 +114,7 @@ class AdmProfileController extends AbstractController
     }
 
     /**
-     * @Route("/api/v1/mountMenu", methods={"GET"})
-     */
-    public function mountMenu(Request $request): Response
-    {
-        $dadosRequest = $request->getContent();
-        $listaIdProfile = array_values(json_decode($dadosRequest, true));
-
-        $menuItens = $this->service->mountMenuItem($listaIdProfile);
-
-        return new JsonResponse($menuItens);
-    }
-
-    /**
-     * @Route("/api/v1/admProfile/findProfilesByPage/{pageId}", methods={"GET"})
+     * @Route("/api/v1/findProfilesByPage/{pageId}", methods={"GET"})
      */
     public function findProfilesByPage(int $pageId): Response
     {
@@ -136,7 +123,7 @@ class AdmProfileController extends AbstractController
     }
     
     /**
-     * @Route("/api/v1/admProfile/findProfilesByUser/{userId}", methods={"GET"})
+     * @Route("/api/v1/findProfilesByUser/{userId}", methods={"GET"})
      */
     public function findProfilesByUser(int $userId): Response
     {

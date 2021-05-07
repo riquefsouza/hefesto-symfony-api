@@ -114,4 +114,18 @@ class AdmMenuController extends AbstractController
 
         return new Response('', Response::HTTP_NO_CONTENT);
     }
+
+    /**
+     * @Route("/api/v1/mountMenu", methods={"GET"})
+     */
+    public function mountMenu(Request $request): Response
+    {
+        $dadosRequest = $request->getContent();
+        $listaIdProfile = array_values(json_decode($dadosRequest, true));
+
+        $menuItens = $this->service->mountMenuItem($listaIdProfile);
+
+        return new JsonResponse($menuItens);
+    }
+
 }

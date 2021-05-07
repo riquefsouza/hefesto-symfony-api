@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\AdmUser;
+use App\Entity\AdmProfile;
 
 /**
  * AdmUserProfile
@@ -18,7 +20,7 @@ class AdmUserProfile
      * @ORM\Column(name="usp_seq", type="bigint", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="adm_user_profile_usp_seq_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="adm_user_profile_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 

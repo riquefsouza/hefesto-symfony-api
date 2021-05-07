@@ -27,32 +27,49 @@ class AdmMenuRepository extends ServiceEntityRepository
         return $this->findBy(array('idMenuParent' => $idMenuParent));
     }
 
-    // /**
-    //  * @return AdmMenu[] Returns an array of AdmMenu objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    /**
+     * @return AdmMenu[]
+     */
+    public function findMenuParentByIdProfiles(array $listaIdProfile){
+       
+        //return $this->createQueryBuilder()
+        //->select($alias)
+        //->from($this->_entityName, $alias);
 
-    /*
-    public function findOneBySomeField($value): ?AdmMenu
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $query = $this->createNamedQuery("AdmProfile.findMenuParentByIdProfiles");
+        $query->setParameter(1, $listaIdProfile);
+        $lista = $query->getResult();
+        return $lista;
     }
-    */
+        
+    /**
+     * @return AdmMenu[]
+     */
+	public function findMenuByIdProfiles(array $listaIdProfile, int $admMenuId) {
+        $query = $this->createNamedQuery("AdmProfile.findMenuByIdProfiles");
+        $query->setParameter(1, $listaIdProfile);
+        $query->setParameter(2, $admMenuId);
+        $lista = $query->getResult();
+        return $lista;
+    }
+    /**
+     * @return AdmMenu[]
+     */
+	public function findAdminMenuParentByIdProfiles(array $listaIdProfile){
+        $query = $this->createNamedQuery("AdmProfile.findAdminMenuParentByIdProfiles");
+        $query->setParameter(1, $listaIdProfile);
+        $lista = $query->getResult();
+        return $lista;
+    }
+    /**
+     * @return AdmMenu[]
+     */
+	public function findAdminMenuByIdProfiles(array $listaIdProfile, int $admMenuId) {
+        $query = $this->createNamedQuery("AdmProfile.findAdminMenuByIdProfiles");
+        $query->setParameter(1, $listaIdProfile);
+        $query->setParameter(2, $admMenuId);
+        $lista = $query->getResult();
+        return $lista;
+    }
+    
 }

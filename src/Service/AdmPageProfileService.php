@@ -36,7 +36,7 @@ class AdmPageProfileService
         $this->pageRepository = $pageRepository;
         $this->profileRepository = $profileRepository;
     }
-
+/*
     public function setTransientList(array $list): void
     {
         foreach ($list as $item)
@@ -51,14 +51,14 @@ class AdmPageProfileService
         $item->AdmPage = $this->pageRepository->find($item->getIdPage()); 
         $item->AdmProfile = $this->profileRepository->find($item->getIdProfile()); 
     }
-
+*/
     /**
      * @return AdmPageProfile[]
      */
     public function findAll()
     {
         $listAdmPageProfile = $this->pageProfileRepository->findAll();
-        $this->setTransientList($listAdmPageProfile);
+        //$this->setTransientList($listAdmPageProfile);
         return $listAdmPageProfile;
     }
 
@@ -73,7 +73,7 @@ class AdmPageProfileService
 
         foreach ($listAdmPageProfile as $item)
         {
-            $this->setTransient($item);
+            //$this->setTransient($item);
             array_push($lista, $item->getAdmProfile());
         }
 
@@ -91,7 +91,7 @@ class AdmPageProfileService
 
         foreach ($listAdmPageProfile as $item)
         {
-            $this->setTransient($item);
+            //$this->setTransient($item);
             array_push($lista, $item->getAdmPage());
         }
 

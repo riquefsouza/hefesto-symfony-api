@@ -13,16 +13,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="adm_profile", uniqueConstraints={@ORM\UniqueConstraint(name="adm_profile_uk", columns={"prf_description"})})
  * @ORM\Entity
- * @ORM\NamedQueries({
- * 	@ORM\NamedQuery(name = "AdmProfile.findAdminMenuParentByIdProfiles", 
- *   query="SELECT DISTINCT t FROM App\Entity\AdmMenu t WHERE t.id IN (SELECT m.idMenuParent FROM App\Entity\AdmProfile p INNER JOIN p.admPages f INNER JOIN f.admMenus m WHERE p.id IN (?1) AND m.id <= 9) ORDER BY t.id, t.order"),
- *  @ORM\NamedQuery(name = "AdmProfile.findMenuParentByIdProfiles", 
- *   query="SELECT DISTINCT t FROM App\Entity\AdmMenu t WHERE t.id IN (SELECT m.idMenuParent FROM App\Entity\AdmProfile p INNER JOIN p.admPages f INNER JOIN f.admMenus m WHERE p.id IN (?1) AND m.id > 9) ORDER BY t.order, t.id"),
- *	@ORM\NamedQuery(name = "AdmProfile.findAdminMenuByIdProfiles", 
- *   query="SELECT DISTINCT m FROM App\Entity\AdmProfile p INNER JOIN p.admPages f INNER JOIN f.admMenus m WHERE p.id IN (?1) AND m.id <= 9 AND m.idMenuParent = ?2 ORDER BY m.id, m.order"),
- *	@ORM\NamedQuery(name = "AdmProfile.findMenuByIdProfiles", 
- *   query="SELECT DISTINCT m FROM App\Entity\AdmProfile p INNER JOIN p.admPages f INNER JOIN f.admMenus m WHERE p.id IN (?1) AND m.id > 9 AND m.idMenuParent = ?2 ORDER BY m.id, m.order"),
- * }) 
  */
 class AdmProfile implements \JsonSerializable
 {
@@ -32,7 +22,7 @@ class AdmProfile implements \JsonSerializable
      * @ORM\Column(name="prf_seq", type="bigint", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="adm_profile_prf_seq_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="adm_profile_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
@@ -60,18 +50,18 @@ class AdmProfile implements \JsonSerializable
     /**
      * @var Collection
      * 	@ORM\ManyToMany(targetEntity="AdmPage", inversedBy="admProfiles")
-     *  @ORM\JoinTable(name = "ADM_PAGE_PROFILE", 
-     *     joinColumns = { @ORM\JoinColumn(name = "PGL_PRF_SEQ") }, 
-     *     inverseJoinColumns = { @ORM\JoinColumn(name = "PGL_PAG_SEQ") })
+     *  @ORM\JoinTable(name = "adm_page_profile", 
+     *     joinColumns = { @ORM\JoinColumn(name = "pgl_prf_seq", referencedColumnName="prf_seq") }, 
+     *     inverseJoinColumns = { @ORM\JoinColumn(name = "pgl_pag_seq", referencedColumnName="pag_seq") })
      */
     private $admPages;
 
     /**
      * @var Collection
      * 	@ORM\ManyToMany(targetEntity="AdmUser", inversedBy="admProfiles")
-	 *  @ORM\JoinTable(name = "ADM_USER_PROFILE", 
-     *     joinColumns = { @ORM\JoinColumn(name = "USP_PRF_SEQ") }, 
-     *     inverseJoinColumns = { @ORM\JoinColumn(name = "USP_USE_SEQ") })
+	 *  @ORM\JoinTable(name = "adm_user_profile", 
+     *     joinColumns = { @ORM\JoinColumn(name = "usp_prf_seq", referencedColumnName="prf_seq") }, 
+     *     inverseJoinColumns = { @ORM\JoinColumn(name = "usp_use_seq", referencedColumnName="usu_seq") })
      */
     private $admUsers;
 
@@ -90,9 +80,16 @@ class AdmProfile implements \JsonSerializable
         $this->admUsers = new ArrayCollection();
     }
 
-    public function getId(): ?string
+    public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getAdministrator(): ?string

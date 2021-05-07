@@ -18,7 +18,7 @@ class AdmParameterCategory implements \JsonSerializable
      * @ORM\Column(name="pmc_seq", type="bigint", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="adm_parameter_category_pmc_seq_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="adm_parameter_category_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 

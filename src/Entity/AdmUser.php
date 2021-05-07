@@ -20,7 +20,7 @@ class AdmUser implements \JsonSerializable
      * @ORM\Column(name="usu_seq", type="bigint", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="adm_user_usu_seq_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="adm_user_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
@@ -62,9 +62,9 @@ class AdmUser implements \JsonSerializable
     /**
      * @var Collection
 	 * @ORM\ManyToMany(targetEntity="AdmProfile", inversedBy="admUsers")
-	 * @ORM\JoinTable(name = "ADM_USER_PROFILE", 
-     *    joinColumns = { @ORM\JoinColumn(name = "usp_use_seq") }, 
-     *    inverseJoinColumns = { @ORM\JoinColumn(name = "usp_prf_seq") })
+	 * @ORM\JoinTable(name = "adm_user_profile", 
+     *    joinColumns = { @ORM\JoinColumn(name = "usp_use_seq", referencedColumnName="usu_seq") }, 
+     *    inverseJoinColumns = { @ORM\JoinColumn(name = "usp_prf_seq", referencedColumnName="prf_seq") })
     */
 	private $admProfiles;
 

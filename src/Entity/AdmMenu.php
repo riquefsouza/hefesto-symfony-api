@@ -4,13 +4,22 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\AdmPage;
-use App\Entity\AdmUser;
 
 /**
  * AdmMenu
  *
  * @ORM\Table(name="adm_menu", uniqueConstraints={@ORM\UniqueConstraint(name="adm_menu_uk", columns={"mnu_description"})}, indexes={@ORM\Index(name="IDX_54F2B6ABF75889DC", columns={"mnu_pag_seq"}), @ORM\Index(name="IDX_54F2B6AB771551D", columns={"mnu_parent_seq"})})
  * @ORM\Entity
+ * @ORM\NamedQueries({
+ * 	@ORM\NamedQuery(name = "AdmProfile.findAdminMenuParentByIdProfiles", 
+ *   query="SELECT t FROM App\Entity\AdmMenu t WHERE t.id IN (SELECT m.idMenuParent FROM App\Entity\AdmProfile p INNER JOIN p.admPages f INNER JOIN f.admMenus m WHERE p.id IN (?1) AND m.id <= 9) ORDER BY t.id, t.order"),
+ *  @ORM\NamedQuery(name = "AdmProfile.findMenuParentByIdProfiles", 
+ *   query="SELECT t FROM App\Entity\AdmMenu t WHERE t.id IN (SELECT m.idMenuParent FROM App\Entity\AdmProfile p INNER JOIN p.admPages f INNER JOIN f.admMenus m WHERE p.id IN (?1) AND m.id > 9) ORDER BY t.order, t.id"),
+ *	@ORM\NamedQuery(name = "AdmProfile.findAdminMenuByIdProfiles", 
+ *   query="SELECT t FROM App\Entity\AdmMenu t WHERE t.id IN (SELECT m.id FROM App\Entity\AdmProfile p INNER JOIN p.admPages f INNER JOIN f.admMenus m WHERE p.id IN (?1) AND m.id <= 9 AND m.idMenuParent = ?2) ORDER BY t.id, t.order"),
+ *	@ORM\NamedQuery(name = "AdmProfile.findMenuByIdProfiles", 
+ *   query="SELECT t FROM App\Entity\AdmMenu t WHERE t.id IN (SELECT m.id FROM App\Entity\AdmProfile p INNER JOIN p.admPages f INNER JOIN f.admMenus m WHERE p.id IN (?1) AND m.id > 9 AND m.idMenuParent = ?2) ORDER BY t.id, t.order"),
+ * })  
  */
 class AdmMenu implements \JsonSerializable
 {
@@ -20,7 +29,7 @@ class AdmMenu implements \JsonSerializable
      * @ORM\Column(name="mnu_seq", type="bigint", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="adm_menu_mnu_seq_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="adm_menu_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 

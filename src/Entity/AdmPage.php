@@ -22,7 +22,7 @@ class AdmPage implements \JsonSerializable
      * @ORM\Column(name="pag_seq", type="bigint", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="adm_page_pag_seq_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="adm_page_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
@@ -43,9 +43,9 @@ class AdmPage implements \JsonSerializable
     /**
      * @var Collection
 	 * @ORM\ManyToMany(targetEntity="AdmProfile", inversedBy="admPages")
-	 * @ORM\JoinTable(name = "ADM_PAGE_PROFILE", 
-     *    joinColumns = { @ORM\JoinColumn(name = "PGL_PAG_SEQ") }, 
-     *    inverseJoinColumns = { @ORM\JoinColumn(name = "PGL_PRF_SEQ") })
+	 * @ORM\JoinTable(name = "adm_page_profile", 
+     *    joinColumns = { @ORM\JoinColumn(name = "pgl_pag_seq", referencedColumnName="pag_seq") }, 
+     *    inverseJoinColumns = { @ORM\JoinColumn(name = "pgl_prf_seq", referencedColumnName="prf_seq") })
      */
 	private $admProfiles;
 
